@@ -1,0 +1,22 @@
+SMC ENGINE FINAL TEST REPORT
+============================
+
+PYTEST:
+...........................                                              [100%]
+27 passed in 0.12s
+
+BACKTEST:
+Total trades: 5
+Wins: 4
+Losses: 1
+Win rate: 80.0%
+Net R: 20.2351
+Profit factor: 21.2351
+Max drawdown R: 1.0
+
+TRADES:
+{'entry_index': 19, 'exit_index': 21, 'direction': 'BUY', 'entry': 105.0, 'stop_loss': 102.897, 'take_profit': 112.0, 'pnl_r': 3.328578, 'outcome': 'WIN'}
+{'entry_index': 22, 'exit_index': 24, 'direction': 'BUY', 'entry': 105.0, 'stop_loss': 102.897, 'take_profit': 115.0, 'pnl_r': 4.755112, 'outcome': 'WIN'}
+{'entry_index': 25, 'exit_index': 27, 'direction': 'BUY', 'entry': 105.0, 'stop_loss': 102.897, 'take_profit': 112.0, 'pnl_r': -1.0, 'outcome': 'LOSS'}
+{'entry_index': 35, 'exit_index': 38, 'direction': 'BUY', 'entry': 96.5, 'stop_loss': 94.905, 'take_profit': 105.0, 'pnl_r': 5.329154, 'outcome': 'WIN'}
+{'entry_index': 41, 'exit_index': 44, 'direction': 'BUY', 'entry': 99.5, 'stop_loss': 97.902, 'take_profit': 112.0, 'pnl_r': 7.822278, 'outcome': 'WIN'}

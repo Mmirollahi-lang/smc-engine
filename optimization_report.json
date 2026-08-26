@@ -1,0 +1,185 @@
+{
+  "split_index": 700,
+  "train": {
+    "min_score": 65.0,
+    "min_rr": 1.5,
+    "total_trades": 8,
+    "net_r": 15.0457,
+    "profit_factor": 4.0091,
+    "max_drawdown_r": 3.0,
+    "win_rate_pct": 37.5,
+    "train_score": 5.015233
+  },
+  "validation": {
+    "min_score": 65.0,
+    "min_rr": 1.5,
+    "total_trades": 1,
+    "net_r": 12.3182,
+    "profit_factor": Infinity,
+    "max_drawdown_r": 0.0,
+    "win_rate_pct": 100.0,
+    "train_score": -Infinity
+  },
+  "leaderboard": [
+    {
+      "min_score": 65.0,
+      "min_rr": 1.5,
+      "total_trades": 8,
+      "net_r": 15.0457,
+      "profit_factor": 4.0091,
+      "max_drawdown_r": 3.0,
+      "win_rate_pct": 37.5,
+      "train_score": 5.015233
+    },
+    {
+      "min_score": 70.0,
+      "min_rr": 1.5,
+      "total_trades": 8,
+      "net_r": 15.0457,
+      "profit_factor": 4.0091,
+      "max_drawdown_r": 3.0,
+      "win_rate_pct": 37.5,
+      "train_score": 5.015233
+    },
+    {
+      "min_score": 75.0,
+      "min_rr": 1.5,
+      "total_trades": 8,
+      "net_r": 15.0457,
+      "profit_factor": 4.0091,
+      "max_drawdown_r": 3.0,
+      "win_rate_pct": 37.5,
+      "train_score": 5.015233
+    },
+    {
+      "min_score": 80.0,
+      "min_rr": 1.5,
+      "total_trades": 8,
+      "net_r": 15.0457,
+      "profit_factor": 4.0091,
+      "max_drawdown_r": 3.0,
+      "win_rate_pct": 37.5,
+      "train_score": 5.015233
+    },
+    {
+      "min_score": 65.0,
+      "min_rr": 2.5,
+      "total_trades": 9,
+      "net_r": 14.5833,
+      "profit_factor": 3.4305,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 33.33,
+      "train_score": 2.91666
+    },
+    {
+      "min_score": 70.0,
+      "min_rr": 2.5,
+      "total_trades": 9,
+      "net_r": 14.5833,
+      "profit_factor": 3.4305,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 33.33,
+      "train_score": 2.91666
+    },
+    {
+      "min_score": 75.0,
+      "min_rr": 2.5,
+      "total_trades": 9,
+      "net_r": 14.5833,
+      "profit_factor": 3.4305,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 33.33,
+      "train_score": 2.91666
+    },
+    {
+      "min_score": 80.0,
+      "min_rr": 2.5,
+      "total_trades": 9,
+      "net_r": 14.5833,
+      "profit_factor": 3.4305,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 33.33,
+      "train_score": 2.91666
+    },
+    {
+      "min_score": 65.0,
+      "min_rr": 2.0,
+      "total_trades": 10,
+      "net_r": 13.0457,
+      "profit_factor": 2.8637,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 30.0,
+      "train_score": 2.60914
+    },
+    {
+      "min_score": 70.0,
+      "min_rr": 2.0,
+      "total_trades": 10,
+      "net_r": 13.0457,
+      "profit_factor": 2.8637,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 30.0,
+      "train_score": 2.60914
+    },
+    {
+      "min_score": 75.0,
+      "min_rr": 2.0,
+      "total_trades": 10,
+      "net_r": 13.0457,
+      "profit_factor": 2.8637,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 30.0,
+      "train_score": 2.60914
+    },
+    {
+      "min_score": 80.0,
+      "min_rr": 2.0,
+      "total_trades": 10,
+      "net_r": 13.0457,
+      "profit_factor": 2.8637,
+      "max_drawdown_r": 5.0,
+      "win_rate_pct": 30.0,
+      "train_score": 2.60914
+    },
+    {
+      "min_score": 65.0,
+      "min_rr": 3.0,
+      "total_trades": 9,
+      "net_r": 10.8589,
+      "profit_factor": 2.5513,
+      "max_drawdown_r": 6.0,
+      "win_rate_pct": 22.22,
+      "train_score": 1.809817
+    },
+    {
+      "min_score": 70.0,
+      "min_rr": 3.0,
+      "total_trades": 9,
+      "net_r": 10.8589,
+      "profit_factor": 2.5513,
+      "max_drawdown_r": 6.0,
+      "win_rate_pct": 22.22,
+      "train_score": 1.809817
+    },
+    {
+      "min_score": 75.0,
+      "min_rr": 3.0,
+      "total_trades": 9,
+      "net_r": 10.8589,
+      "profit_factor": 2.5513,
+      "max_drawdown_r": 6.0,
+      "win_rate_pct": 22.22,
+      "train_score": 1.809817
+    },
+    {
+      "min_score": 80.0,
+      "min_rr": 3.0,
+      "total_trades": 9,
+      "net_r": 10.8589,
+      "profit_factor": 2.5513,
+      "max_drawdown_r": 6.0,
+      "win_rate_pct": 22.22,
+      "train_score": 1.809817
+    }
+  ]
+}

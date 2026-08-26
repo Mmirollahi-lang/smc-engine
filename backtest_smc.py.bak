@@ -1,0 +1,206 @@
+from __future__ import annotations
+
+from typing import Sequence
+
+from backtest import Backtester, BacktestResult
+from core.market_structure import Candle
+from main import SMCEngine
+
+
+class SMCBacktestStrategy:
+    """Adapts SMCEngine to the candle-by-candle Backtester contract.
+
+    Only history up to the current index is supplied to SMCEngine.
+    A confirmed setup is consumed after its first approved signal so the
+    same setup cannot generate repeated trades on later candles.
+    """
+
+    def __init__(
+        self,
+        min_score: float = 70.0,
+        min_rr: float = 2.0,
+        risk_pct: float = 1.0,
+        balance: float = 10_000.0,
+    ) -> None:
+        self.engine = SMCEngine(
+            min_score=min_score,
+            min_rr=min_rr,
+            risk_pct=risk_pct,
+        )
+        self.balance = balance
+
+        # Prevent the same setup from being traded repeatedly.
+        self._consumed_setups: set[tuple] = set()
+
+    def signal(self, index: int, history: Sequence[Candle]) -> dict | None:
+        if len(history) < 10:
+            return None
+
+        structure = self.engine.market_structure.analyze(history)
+        if structure.bias not in {"BUY", "SELL"}:
+            return None
+
+        targets = self._targets(
+            structure.to_dict(),
+            structure.bias,
+            history[-1].close,
+        )
+        if targets is None:
+            return None
+
+        result = self.engine.analyze(
+            history,
+            balance=self.balance,
+            tp1_level=targets[0],
+            tp2_level=targets[1],
+            structure=structure,
+        )
+
+        if result.get("status") != "APPROVED":
+            return None
+
+        entry = result.get("entry") or {}
+
+        direction = result["market_structure"]["bias"]
+        entry_price = float(entry["entry"])
+        stop_loss = float(entry["stop_loss"])
+        take_profit = float(entry["tp1"])
+
+        # A setup is identified by direction + entry + stop.
+        # TP can legitimately change as new targets become available,
+        # but the underlying entry setup should not be re-entered.
+        setup_key = (
+            direction,
+            round(entry_price, 8),
+            round(stop_loss, 8),
+        )
+
+        if setup_key in self._consumed_setups:
+            return None
+
+        self._consumed_setups.add(setup_key)
+
+        return {
+            "direction": direction,
+            "entry": entry_price,
+            "stop_loss": stop_loss,
+            "take_profit": take_profit,
+            "score": (result.get("score") or {}).get("total", 0.0),
+        }
+
+    def diagnose(self, candles: Sequence[Candle]) -> dict[str, int]:
+        """Count where candidate signals are filtered during a backtest pass."""
+        counts = {
+            "history_ready": 0,
+            "structure_bias": 0,
+            "targets_found": 0,
+            "displacement": 0,
+            "order_block": 0,
+            "entry_approved": 0,
+        }
+
+        for i in range(len(candles)):
+            history = candles[: i + 1]
+
+            if len(history) < 10:
+                continue
+
+            counts["history_ready"] += 1
+
+            structure = self.engine.market_structure.analyze(history)
+
+            if structure.bias not in {"BUY", "SELL"}:
+                continue
+
+            counts["structure_bias"] += 1
+
+            targets = self._targets(
+                structure.to_dict(),
+                structure.bias,
+                history[-1].close,
+            )
+
+            if targets is None:
+                continue
+
+            counts["targets_found"] += 1
+
+            result = self.engine.analyze(
+                history,
+                balance=self.balance,
+                tp1_level=targets[0],
+                tp2_level=targets[1],
+            )
+
+            displacement = result.get("displacement", {})
+            if displacement.get("valid"):
+                counts["displacement"] += 1
+
+            order_block = result.get("order_block", {})
+            if order_block.get("valid"):
+                counts["order_block"] += 1
+
+            if result.get("status") == "APPROVED":
+                counts["entry_approved"] += 1
+
+        return counts
+
+    @staticmethod
+    def _targets(
+        structure: dict,
+        bias: str,
+        current_price: float,
+    ) -> tuple[float, float] | None:
+        pivots = sorted(
+            structure.get("pivots", []),
+            key=lambda x: x["index"],
+        )
+
+        if bias == "BUY":
+            # TP1 = nearest confirmed swing high above price.
+            # TP2 = next farther confirmed high.
+            highs = sorted(
+                {
+                    p["price"]
+                    for p in pivots
+                    if p["kind"] == "HIGH"
+                    and p["price"] > current_price
+                }
+            )
+
+            return (highs[0], highs[1]) if len(highs) >= 2 else None
+
+        if bias == "SELL":
+            # TP1 = nearest confirmed swing low below price.
+            # TP2 = next farther confirmed low.
+            lows = sorted(
+                {
+                    p["price"]
+                    for p in pivots
+                    if p["kind"] == "LOW"
+                    and p["price"] < current_price
+                },
+                reverse=True,
+            )
+
+            return (lows[0], lows[1]) if len(lows) >= 2 else None
+
+        return None
+
+
+def run_smc_backtest(
+    candles: Sequence[Candle],
+    *,
+    min_score: float = 70.0,
+    min_rr: float = 2.0,
+    risk_pct: float = 1.0,
+    balance: float = 10_000.0,
+) -> BacktestResult:
+    strategy = SMCBacktestStrategy(
+        min_score=min_score,
+        min_rr=min_rr,
+        risk_pct=risk_pct,
+        balance=balance,
+    )
+
+    return Backtester().run(candles, strategy.signal)

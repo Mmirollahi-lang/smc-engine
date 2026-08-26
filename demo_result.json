@@ -1,0 +1,11 @@
+{
+  "trades": [],
+  "total_trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "breakeven": 0,
+  "win_rate_pct": 0.0,
+  "net_r": 0.0,
+  "profit_factor": null,
+  "max_drawdown_r": 0.0
+}
